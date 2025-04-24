@@ -1,5 +1,6 @@
+import { SCHEMA_NAMES } from '@constants';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 
 export type BookDocument = HydratedDocument<Book>;
 
@@ -8,9 +9,32 @@ export class Book {
   @Prop({ type: String })
   name: string;
 
+  @Prop({ type: Number })
   bookNumber: number;
 
-  bookType: string
+  @Prop({ type: String })
+  bookType: string;
+
+  @Prop({ type: String })
+  languageType: string;
+
+  @Prop({ type: Number })
+  createdYear: number;
+
+  @Prop({ type: String })
+  madeBy: string;
+
+  @Prop({ type: String })
+  isbn: string;
+
+  @Prop({ type: Number })
+  bookPage: number;
+
+  @Prop({ type: Date })
+  digitizationDate: Date;
+
+  @Prop({ type: Types.ObjectId, ref: SCHEMA_NAMES.User })
+  digitizationBy: Types.ObjectId;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
