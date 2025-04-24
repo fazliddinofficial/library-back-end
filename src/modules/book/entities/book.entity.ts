@@ -7,6 +7,10 @@ export type BookDocument = HydratedDocument<Book>;
 export class Book {
   @Prop({ type: String })
   name: string;
+
+  bookNumber: number;
+
+  bookType: string
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

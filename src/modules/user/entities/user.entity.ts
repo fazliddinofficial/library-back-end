@@ -1,3 +1,4 @@
+import { SCHEMA_NAMES } from '@constants';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
