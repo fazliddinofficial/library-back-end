@@ -4,7 +4,7 @@ import { HydratedDocument, Types } from 'mongoose';
 
 export type BookDocument = HydratedDocument<Book>;
 
-@Schema()
+@Schema({ timestamps: true, versionKey: false })
 export class Book {
   @Prop({ type: String })
   name: string;
