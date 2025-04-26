@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { Book } from './entities/book.entity';
+import { ERRORS } from '@constants';
 
 @Injectable()
 export class BookService {
-  create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
+  constructor(@InjectModel(Book.name) private bookModel: Model<Book>) {}
+
+  async create(createBookDto: CreateBookDto) {
+    return await this.bookModel.create(createBookDto);
   }
 
-  findAll() {
-    return `This action returns all book`;
+  async findAll() {
+    return await this.bookModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(id: string) {
+    const foundBook = await this.bookModel.findById(id);
+
+    if (!foundBook) {
+      throw new BadRequestException(ERRORS.BOOK_NOT_FOUND);
+    }
+
+    return foundBook;
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async update(id: string, updateBookDto: UpdateBookDto) {
+    const updatedBook = await this.bookModel.findByIdAndUpdate(
+      id,
+      updateBookDto,
+      { new: true },
+    );
+
+    if (!updatedBook) {
+      throw new BadRequestException(ERRORS.BOOK_NOT_FOUND);
+    }
+
+    return updatedBook;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async remove(id: string) {
+    const deletedBook = await this.bookModel.findByIdAndDelete(id);
+
+    if (!deletedBook) {
+      throw new BadRequestException(ERRORS.BOOK_NOT_FOUND);
+    }
+
+    return true;
   }
 }

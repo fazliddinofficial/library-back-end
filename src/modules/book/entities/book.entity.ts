@@ -1,5 +1,5 @@
 import { SCHEMA_NAMES } from '@constants';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 
 export type BookDocument = HydratedDocument<Book>;
@@ -38,3 +38,8 @@ export class Book {
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
+
+export const BookModel: ModelDefinition = {
+  name: Book.name,
+  schema: BookSchema,
+};
