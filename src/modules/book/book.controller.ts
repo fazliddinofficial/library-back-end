@@ -39,4 +39,9 @@ export class BookController {
   remove(@Param('id') id: string) {
     return this.bookService.remove(id);
   }
+
+  @Get('/book')
+  getBook() {
+    return this.bookService.getBook()
+  }
 }

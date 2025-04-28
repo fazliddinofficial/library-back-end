@@ -52,4 +52,11 @@ export class BookService {
 
     return true;
   }
+
+  async getBook(){
+    
+  }
 }
+
+
+// nomi, isbn, yili, muallifi
