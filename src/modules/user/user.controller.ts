@@ -11,6 +11,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard, UseAuth } from 'src/guards/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -21,6 +22,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @UseAuth()
   @Get()
   findAll() {
     return this.userService.findAll();
