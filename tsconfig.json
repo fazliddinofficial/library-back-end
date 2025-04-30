@@ -23,6 +23,7 @@
       "@user": ["src/modules/user"],
       "@book": ["src/modules/book"],
       "@utils": ["src/utils"],
+      "@guards": ["src/guards"]
     }
   }
 }
