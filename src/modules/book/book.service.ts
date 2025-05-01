@@ -13,7 +13,13 @@ export class BookService {
   constructor(@InjectModel(Book.name) private bookModel: Model<Book>) {}
 
   async create(createBookDto: CreateBookDto) {
-    return await this.bookModel.create(createBookDto);
+    const createdBook = await this.bookModel.create(createBookDto);
+
+    return {
+      data: createBookDto,
+      status: 'success',
+      message: 'Book created successfully!',
+    };
   }
 
   async findAll() {
