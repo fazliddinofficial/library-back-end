@@ -6,6 +6,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ERRORS } from '@constants';
+import { FilterBookDto } from './dto/filter-book.dto';
 
 @Injectable()
 export class BookService {
@@ -53,10 +54,9 @@ export class BookService {
     return true;
   }
 
-  async getBook(){
-    
+  async getBook(filter: FilterBookDto) {
+    return await this.bookModel.find(filter);
   }
 }
-
 
 // nomi, isbn, yili, muallifi

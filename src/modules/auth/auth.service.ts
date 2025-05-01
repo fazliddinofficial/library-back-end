@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as jwt from 'jsonwebtoken';
@@ -22,7 +22,7 @@ export class AuthService {
     const foundUser = await this.userModel.findOne({ email });
 
     if (foundUser) {
-      throw new BadRequestException(ERRORS.USER_ALREADY_EXIST);
+      throw new ConflictException(ERRORS.USER_ALREADY_EXIST);
     }
 
     const createdUser = await this.userModel.create({
@@ -31,9 +31,15 @@ export class AuthService {
       password,
     });
 
-    return jwt.sign({ email: email, id: createdUser._id }, 'secretKey', {
+    const token = jwt.sign({ email: email, id: createdUser._id }, 'secretKey', {
       expiresIn: '24h',
     });
+
+    return {
+      status: 'success',
+      message: 'User signed up successfully!',
+      token,
+    };
   }
 
   async signIn({
@@ -46,11 +52,17 @@ export class AuthService {
     const foundUser = await this.userModel.findOne({ email });
 
     if (!foundUser || password !== foundUser.password) {
-      throw new BadRequestException('Email or password is not correct!');
+      throw new ConflictException('Email or password is not correct!');
     }
 
-    return jwt.sign({ email: email, id: foundUser._id }, 'secretKey', {
+    const token = jwt.sign({ email: email, id: foundUser._id }, 'secretKey', {
       expiresIn: '24h',
     });
+
+    return {
+      status: 'success',
+      message: 'User signed in successfully!',
+      token,
+    };
   }
 }

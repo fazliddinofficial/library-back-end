@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 9000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
 
   const config = new DocumentBuilder().setTitle('App for library!').build();
 

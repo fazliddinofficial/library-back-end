@@ -10,6 +10,7 @@ import {
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { FilterBookDto } from './dto/filter-book.dto';
 
 @Controller('book')
 export class BookController {
@@ -41,7 +42,7 @@ export class BookController {
   }
 
   @Get('/book')
-  getBook() {
-    return this.bookService.getBook()
+  getBook(@Body() filter: FilterBookDto) {
+    return this.bookService.getBook(filter);
   }
 }
