@@ -25,6 +25,9 @@ export class Book {
   madeBy: string;
 
   @Prop({ type: String })
+  author: string;
+
+  @Prop({ type: String })
   isbn: string;
 
   @Prop({ type: Number })

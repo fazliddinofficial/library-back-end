@@ -7,6 +7,8 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 import { ERRORS } from '@constants';
 import { FilterBookDto } from './dto/filter-book.dto';
+import { client } from 'src/search/elasticSearch';
+import { title } from 'process';
 
 @Injectable()
 export class BookService {
@@ -15,8 +17,18 @@ export class BookService {
   async create(createBookDto: CreateBookDto) {
     const createdBook = await this.bookModel.create(createBookDto);
 
+    await client.index({
+      index: 'books',
+      id: createdBook._id.toString(),
+      document: {
+        name: createdBook.name,
+        author: createdBook.author,
+        isbn: createdBook.isbn,
+      },
+    });
+
     return {
-      data: createBookDto,
+      data: createdBook,
       status: 'success',
       message: 'Book created successfully!',
     };
@@ -62,6 +74,18 @@ export class BookService {
 
   async getBook(filter: FilterBookDto) {
     return await this.bookModel.find(filter);
+  }
+
+  async getSearchedBooks(q: string) {
+    const result = await client.search({
+      index: 'books',
+      query: {
+        match: {
+          title: q,
+        },
+      },
+    });
+    return result.hits.hits;
   }
 }
 

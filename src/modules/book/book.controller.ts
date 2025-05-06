@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -44,5 +45,10 @@ export class BookController {
   @Get('/book')
   getBook(@Body() filter: FilterBookDto) {
     return this.bookService.getBook(filter);
+  }
+
+  @Post('/search')
+  searchBook(@Query('q') query: string) {
+    return this.bookService.getSearchedBooks(query);
   }
 }
