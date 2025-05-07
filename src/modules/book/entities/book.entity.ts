@@ -1,6 +1,7 @@
-import { SCHEMA_NAMES } from '@constants';
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
+
+import { SCHEMA_NAMES } from '@constants';
 
 export type BookDocument = HydratedDocument<Book>;
 
@@ -33,8 +34,8 @@ export class Book {
   @Prop({ type: Number })
   bookPage: number;
 
-  @Prop({ type: Date })
-  digitizationDate: Date;
+  @Prop({ type: String })
+  digitizationDate: string;
 
   @Prop({ type: Types.ObjectId, ref: SCHEMA_NAMES.User })
   digitizationBy: Types.ObjectId;
