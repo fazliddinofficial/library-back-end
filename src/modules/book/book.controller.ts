@@ -22,6 +22,11 @@ export class BookController {
     return this.bookService.create(createBookDto);
   }
 
+  @Get('/search')
+  searchBook(@Query('q') query: string) {
+    return this.bookService.getSearchedBooks(query);
+  }
+
   @Get()
   findAll() {
     return this.bookService.findAll();
@@ -45,10 +50,5 @@ export class BookController {
   @Get('/book')
   getBook(@Body() filter: FilterBookDto) {
     return this.bookService.getBook(filter);
-  }
-
-  @Post('/search')
-  searchBook(@Query('q') query: string) {
-    return this.bookService.getSearchedBooks(query);
   }
 }
