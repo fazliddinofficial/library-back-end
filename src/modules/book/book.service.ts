@@ -8,7 +8,6 @@ import { Book } from './entities/book.entity';
 import { ERRORS } from '@constants';
 import { FilterBookDto } from './dto/filter-book.dto';
 import { client } from 'src/search/elasticSearch';
-import { title } from 'process';
 
 @Injectable()
 export class BookService {
@@ -65,6 +64,13 @@ export class BookService {
   async remove(id: string) {
     const deletedBook = await this.bookModel.findByIdAndDelete(id);
 
+    const result = await client.delete({
+      index: 'books',
+      id: id,
+    });
+
+    console.log(result);
+
     if (!deletedBook) {
       throw new BadRequestException(ERRORS.BOOK_NOT_FOUND);
     }
@@ -77,16 +83,18 @@ export class BookService {
   }
 
   async getSearchedBooks(q: string) {
-    const result = await client.search({
-      index: 'books',
-      query: {
-        match: {
-          title: q,
+    if (q !== '' && q !== undefined && q !== null) {
+      const result = await client.search({
+        index: 'books',
+        query: {
+          multi_match: {
+            query: q,
+            fields: ['title', 'author', 'isbn'],
+          },
         },
-      },
-    });
-    return result.hits.hits;
+      });
+      return result.hits.hits;
+    }
+    throw new BadRequestException('Something went wrong!');
   }
 }
-
-// nomi, isbn, yili, muallifi
