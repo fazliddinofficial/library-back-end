@@ -83,17 +83,30 @@ export class BookService {
   }
 
   async getSearchedBooks(q: string) {
+    if (q === '') {
+      return await this.bookModel.find();
+    }
     if (q !== '' && q !== undefined && q !== null) {
-      const result = await client.search({
+      const foundBooks = await client.search({
         index: 'books',
         query: {
           multi_match: {
             query: q,
-            fields: ['title', 'author', 'isbn'],
+            fields: ['title', 'author', 'isbn', 'name'],
           },
         },
       });
-      return result.hits.hits;
+
+      const result = await Promise.all(
+        foundBooks.hits.hits.map(async (v) => {
+          const book = await this.bookModel.findById(v._id);
+          if (book) {
+            return book;
+          }
+        }),
+      );
+
+      return result;
     }
     throw new BadRequestException('Something went wrong!');
   }
