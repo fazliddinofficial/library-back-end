@@ -82,11 +82,11 @@ export class BookService {
     return await this.bookModel.find(filter);
   }
 
-  async getSearchedBooks(q: string) {
-    if (q === '') {
+  async getSearchedBooks(q: string = 'all') {
+    if (q === 'all') {
       return await this.bookModel.find();
     }
-    if (q !== '' && q !== undefined && q !== null) {
+    if (q !== undefined && q !== null) {
       const foundBooks = await client.search({
         index: 'books',
         query: {
