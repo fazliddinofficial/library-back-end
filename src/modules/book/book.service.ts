@@ -64,15 +64,17 @@ export class BookService {
   async remove(id: string) {
     const deletedBook = await this.bookModel.findByIdAndDelete(id);
 
+    if (!deletedBook) {
+      throw new BadRequestException(ERRORS.BOOK_NOT_FOUND);
+    }
+
     const result = await client.delete({
       index: 'books',
       id: id,
     });
 
-    console.log(result);
-
-    if (!deletedBook) {
-      throw new BadRequestException(ERRORS.BOOK_NOT_FOUND);
+    if (result.result !== 'deleted') {
+      throw new BadRequestException('Book not found from search database!');
     }
 
     return true;
