@@ -14,7 +14,11 @@ export class BookService {
   constructor(@InjectModel(Book.name) private bookModel: Model<Book>) {}
 
   async create(createBookDto: CreateBookDto) {
-    const createdBook = await this.bookModel.create(createBookDto);
+    const foundAllBooks = await this.bookModel.find();
+    const createdBook = await this.bookModel.create({
+      ...createBookDto,
+      bookNumber: foundAllBooks.length + 1,
+    });
 
     await client.index({
       index: 'books',

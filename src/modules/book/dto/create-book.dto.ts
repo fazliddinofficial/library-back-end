@@ -5,9 +5,6 @@ export class CreateBookDto {
   name: string;
 
   @ApiProperty()
-  bookNumber: number;
-
-  @ApiProperty()
   bookType: string;
 
   @ApiProperty()
