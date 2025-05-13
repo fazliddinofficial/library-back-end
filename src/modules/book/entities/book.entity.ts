@@ -31,7 +31,7 @@ export class Book {
   @Prop({ type: String })
   isbn: string;
 
-  @Prop({ type: Number })
+  @Prop({ type: Number, default: 0 })
   bookPage: number;
 
   @Prop({ type: String })
