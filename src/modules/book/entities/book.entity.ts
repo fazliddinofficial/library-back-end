@@ -7,7 +7,7 @@ export type BookDocument = HydratedDocument<Book>;
 
 @Schema({ timestamps: true, versionKey: false })
 export class Book {
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   name: string;
 
   @Prop({ type: Number })
@@ -15,6 +15,9 @@ export class Book {
 
   @Prop({ type: String })
   bookType: string;
+
+  @Prop({ type: String })
+  inventarNumber: string;
 
   @Prop({ type: String })
   languageType: string;
@@ -34,8 +37,8 @@ export class Book {
   @Prop({ type: Number, default: 0 })
   bookPage: number;
 
-  @Prop({ type: String })
-  digitizationDate: string;
+  @Prop({ type: Date, default: new Date().toLocaleTimeString() })
+  digitizationDate: Date;
 
   @Prop({ type: Types.ObjectId, ref: SCHEMA_NAMES.User })
   digitizationBy: Types.ObjectId;
