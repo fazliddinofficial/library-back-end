@@ -27,6 +27,8 @@ export class BookService {
         name: createdBook.name,
         author: createdBook.author,
         isbn: createdBook.isbn,
+        inventarNumber: createdBook.inventarNumber,
+        madeBy: createdBook.madeBy,
       },
     });
 
