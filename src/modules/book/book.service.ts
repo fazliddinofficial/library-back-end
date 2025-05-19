@@ -100,7 +100,7 @@ export class BookService {
         query: {
           multi_match: {
             query: q,
-            fields: ['title', 'author', 'isbn', 'name'],
+            fields: ['title', 'author', 'isbn', 'name', 'inventarNumber'],
           },
         },
       });
