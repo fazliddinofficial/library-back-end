@@ -10,7 +10,7 @@ const cloudDb =
 
 @Module({
   imports: [
-    MongooseModule.forRoot(localDB),
+    MongooseModule.forRoot(cloudDb),
     UserModule,
     BookModule,
     AuthModule,
