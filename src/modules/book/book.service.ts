@@ -17,19 +17,20 @@ export class BookService {
     const isInventorUnique = await this.bookModel.findOne({
       inventarNumber: createBookDto.inventarNumber,
     });
-    const isIsbnUnique = await this.bookModel.findOne({
-      isbn: createBookDto.isbn,
-    });
+    if (createBookDto.isbn) {
+      const isIsbnUnique = await this.bookModel.findOne({
+        isbn: createBookDto.isbn,
+      });
+      if (isIsbnUnique) {
+        throw new BadRequestException(
+          `${createBookDto.isbn} ISBN raqam bilan kitob allaqachon yaratilgan!`,
+        );
+      }
+    }
 
     if (isInventorUnique) {
       throw new BadRequestException(
         `${createBookDto.inventarNumber} inventor raqami bilan kitob allaqachon yaratilgan!`,
-      );
-    }
-
-    if (isIsbnUnique) {
-      throw new BadRequestException(
-        `${createBookDto.isbn} ISBN raqam bilan kitob allaqachon yaratilgan!`,
       );
     }
 
