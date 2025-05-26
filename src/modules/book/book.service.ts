@@ -27,6 +27,12 @@ export class BookService {
       );
     }
 
+    if (isIsbnUnique) {
+      throw new BadRequestException(
+        `${createBookDto.isbn} ISBN raqam bilan kitob allaqachon yaratilgan!`,
+      );
+    }
+
     const foundAllBooks = await this.bookModel.find();
     const createdBook = await this.bookModel.create({
       ...createBookDto,
