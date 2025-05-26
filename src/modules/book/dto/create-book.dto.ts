@@ -11,6 +11,9 @@ export class CreateBookDto {
   languageType: string;
 
   @ApiProperty()
+  inventarNumber: string;
+
+  @ApiProperty()
   createdYear: number;
 
   @ApiProperty()

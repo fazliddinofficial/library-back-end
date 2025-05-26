@@ -14,6 +14,19 @@ export class BookService {
   constructor(@InjectModel(Book.name) private bookModel: Model<Book>) {}
 
   async create(createBookDto: CreateBookDto) {
+    const isInventorUnique = await this.bookModel.findOne({
+      inventarNumber: createBookDto.inventarNumber,
+    });
+    const isIsbnUnique = await this.bookModel.findOne({
+      isbn: createBookDto.isbn,
+    });
+
+    if (isInventorUnique) {
+      throw new BadRequestException(
+        `${createBookDto.inventarNumber} inventor raqami bilan kitob allaqachon yaratilgan!`,
+      );
+    }
+
     const foundAllBooks = await this.bookModel.find();
     const createdBook = await this.bookModel.create({
       ...createBookDto,
@@ -100,7 +113,7 @@ export class BookService {
         query: {
           multi_match: {
             query: q,
-            fields: ['title', 'author', 'isbn', 'name'],
+            fields: ['title', 'author', 'isbn', 'name', 'inventarNumber'],
           },
         },
       });
