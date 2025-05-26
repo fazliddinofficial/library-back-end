@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateBookDto {
+  @IsNotEmpty()
   @ApiProperty()
   name: string;
 
@@ -10,6 +12,7 @@ export class CreateBookDto {
   @ApiProperty()
   languageType: string;
 
+  @IsNotEmpty()
   @ApiProperty()
   inventarNumber: string;
 
