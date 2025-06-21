@@ -4,7 +4,7 @@ import { BookModule } from './modules/book/book.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './modules/auth/auth.module';
 
-const localDB = 'mongodb://localhost:27017/';
+const localDB = 'mongodb://localhost:27017/library';
 const cloudDb =
   'mongodb+srv://fazliddinquvatboyev8:vUgIPtGTYIRXWeer@cluster0.1xachzp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
