@@ -59,11 +59,11 @@ export class BookService {
     };
   }
 
-  async findAll() {
+  async findAll(sort: { [key: string]: any } = { name: 1 }) {
     return await this.bookModel
       .find()
       .collation({ locale: 'en', strength: 1 })
-      .sort({ name: 1 });
+      .sort(sort);
   }
 
   async findOne(id: string) {

@@ -28,8 +28,13 @@ export class BookController {
   }
 
   @Get()
-  findAll() {
-    return this.bookService.findAll();
+  findAll(
+    @Query('sortBy') sortBy = 'name',
+    @Query('order') order: 'asc' | 'desc' = 'asc',
+  ) {
+    const sortDirection = order === 'asc' ? 1 : -1;
+    const sort = { [sortBy]: sortDirection };
+    return this.bookService.findAll(sort);
   }
 
   @Get(':id')
